@@ -1,0 +1,17 @@
+Ramachandran Plot
+=================
+To culminate the programming module of bootcamp, you will write a program that 
+generates Ramachandran plots from PDB files.  Ramachandran plots show how 
+backbone torsion angles are distributed in proteins, and PDB files are commonly 
+used to encode protein coordinates.
+
+The two axes in a Ramachandran plot represent different torsion angles.  The 
+horizontal axis represents the phi angles, which are defined by the C-CA-N-C 
+atoms.  The vertical axis represents the psi angles, which are defined by the 
+N-C-CA-N atoms.  Each residue in a protein has a phi angle and a psi angle, and 
+each point on a Ramachandran plot represents one of these pairs.  
+
+Different secondary structural elements are characterized by different regions 
+in a Ramachandran plot.  For this reason, Ramachandran plots are used both to 
+validate experimental structures and to predict computational structures.
+

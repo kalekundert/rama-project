@@ -1,0 +1,228 @@
+\documentclass{article}
+
+% Advertise docopt better
+
+\usepackage[version=3]{mhchem}
+\usepackage[greek,english]{babel}
+\usepackage{booktabs}
+\usepackage{gensymb}
+\usepackage{graphicx}
+\usepackage[hidelinks]{hyperref}
+\usepackage{fixltx2e}
+\usepackage{titlesec}
+\usepackage[normalem]{ulem}
+\usepackage{parskip}
+
+\titleformat*{\section}{\Large\bfseries}
+\titleformat*{\subsection}{\bfseries}
+
+\hypersetup{
+  colorlinks   = true,
+  urlcolor     = blue,
+  linkcolor    = black,
+  citecolor    = black
+}
+
+\setcounter{secnumdepth}{0}
+
+\newcommand{\calpha}{C\textsubscript{\textgreek{a}}}
+\newcommand{\ahelices}{\textgreek{a}-helices}
+\newcommand{\bsheets}{\textgreek{b}-sheets}
+\newcommand{\bbphi}{\ensuremath{\phi}}
+\newcommand{\bbpsi}{\ensuremath{\psi}}
+\newcommand{\bbomega}{\ensuremath{\omega}}
+\newcommand{\module}[2]{\href{#2}{\texttt{#1}}}
+
+\begin{document}
+
+\title{Making Ramachandran Plots}
+\author{2014 iPQB Bootcamp\\Summer Programming Project}
+\date{}
+\maketitle{}
+
+\section{Introduction}
+
+The purpose of this project is to help you learn Python by giving you 
+challenging but relevant problem to practice on.  The project is to write a 
+program that generates Ramachandran plots from PDB files.  Ramachandran plots 
+show how backbone torsion angles are distributed in proteins.  Different 
+features of proteins (namely \ahelices{} and \bsheets{}) occupy distinct 
+regions in these plots.  For this reason, Ramachandran plots are commonly used 
+both to validate experimental structures and to predict computational 
+structures.
+
+Hopefully, this project will require you to exercise three skills that are 
+essential for scientific programming:
+
+\begin{enumerate}
+ \item Reading in data from a file.
+ \item Manipulating that data numerically.
+ \item Plotting your results.
+\end{enumerate}
+
+If you have any questions about programming or this project, send me an email 
+at \href{mailto:kale.kundert@ucsf.edu}{kale.kundert@ucsf.edu}.
+
+\section{What is a Ramachandran Plot?}
+
+I'll explain exactly what a Ramachandran plot is below, but I'll begin by 
+introducing some basic terminology.  This is necessarily a brief introduction, 
+so feel free to email me for clarification if you get lost.  First of all, 
+proteins are composed of amino acid residues.  Figure \ref{fig:three-residues} 
+shows three residues from a larger protein.  A distinction is made between the 
+backbone (blue) and the sidechains (red).  Every residue in the protein is 
+connected through the backbone, which has a very regular pattern of atoms: 
+\ce{N - C_{\textgreek{a}} - C - N - C_{\textgreek{a}} - C - \ldots} where the 
+carbon that supports the sidechain is called \calpha{} to distinguish it from 
+the one that doesn't.
+
+\begin{figure}
+ \centering
+ \includegraphics[width=0.8\textwidth]{three-residues}
+ \caption{Three residues with the backbone and sidechains highlighted.}
+ \label{fig:three-residues}
+\end{figure}
+
+Torsion angles are a convenient way to describe the geometry of the backbone.  
+Intuitively, a torsion angle can be described the amount of twist around a 
+bond.  To be more precise, consider four consecutive backbone atoms.  You 
+always need four atoms to define a torsion angle.  Use the first three atoms to 
+construct one plane and the last three atoms to construct another.  The angle 
+between those two planes is the torsion angle, or the twist around the bond 
+connecting the second and third atoms.  These angles are convenient way to 
+describe geometry because they don't depend on the orientation of whole protein 
+in Cartesian space.
+
+For each residue in a protein, three backbone torsions are defined:
+
+\begin{table}[h]
+\centering
+\begin{tabular}{ll}
+\toprule
+Torsion      & Backbone Atoms                                               \\
+\midrule
+$\omega{}_i$ & \ce{
+C^{$i$-1}_{\textgreek{a}} - C^{$i$-1} - N^{$i$} - C^{$i$}_{\textgreek{a}}}  \\
+$\phi{}_i$ & \ce{
+C^{$i$-1} - N^{$i$} - C^{$i$}_{\textgreek{a}} - C^{$i$}}                    \\
+$\psi{}_i$ & \ce{
+N^{$i$} - C^{$i$}_{\textgreek{a}} - C^{$i$} - N^{$i+1$}}                    \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+A Ramachandran plot is a scatter plot showing the \bbphi{} and \bbpsi{} angles 
+for each residue.  The \bbphi{} angles are plotted along the x-axis and the 
+\bbpsi{} angles are plotted along the y-axis.  Each point is the $\phi_i, 
+\psi_i$ pair for one residue.  The \bbomega{} angles are left out because they 
+never deviate much from 180\degree.  
+
+Figure \ref{fig:example-plot} shows the Ramachandran plot for PDB ID: 1AXC, 
+which is one of the structures you'll use for this project.\footnote{1AXC is 
+also the structure featured on the Ramachandran Plot wikipedia page.}  Note 
+that there are two distinct clusters of points.  These represent two specific 
+backbone conformations that are common in folded proteins: \ahelices{} (lower 
+cluster) and \bsheets{} (upper cluster).  The ability to easily identify which 
+residues are contributing to well-known, stable structural motifs is what makes 
+Ramachandran plots useful for structural validation and prediction. 
+
+\begin{figure}
+ \centering
+ \includegraphics[width=0.55\textwidth]{example-plot}
+ \caption{Ramachardran plot for PDB ID: 1AXC}
+ \label{fig:example-plot}
+\end{figure}
+
+\section{What Do You Need to Do?}
+
+Your task is to create a program written in Python that takes a PDB file 
+(specified on the command line) as input and produces a Ramachandran plot as 
+output.  This is meant to be a challenging task for someone new to Python, so 
+before starting you should work through an online tutorial.  There are lots of 
+tutorials out there geared towards all different skill levels, but my favorite 
+is \href{http://learnpythonthehardway.org/book}{Learn Python the Hard Way}.  
+Once you get started, some example inputs are available for you to download 
+from the 
+\href{https://sites.google.com/site/ipqbbootcamp2014/programming}{bootcamp 
+website}.
+
+\subsection{Reading PDB Files}
+
+PDB files contain information about the 3D structure of protein.  PDB stands 
+for Protein Data Bank, which is online database of protein structures.  These  
+files are regular text files (so you can view them using the same program you 
+use to edit Python code) where each line contains different information about 
+the structure.  The lines containing the coordinate information that you will 
+need all begin with the keyword \texttt{ATOM}.  You can read the 
+\href{http://www.wwpdb.org/documentation/format33/sect9.html#ATOM}{PDB file 
+format specification} for more information on exactly how these lines encode 
+the information you will need.
+
+Your program should accept the name of a PDB file as a command line argument.  
+This will allow you to easily generate Ramachandran plots for different 
+structures without having to change your script itself.  There are several ways 
+to use command line arguments from python scripts.  If you're feeling 
+overwhelmed and just want anything that works, look into 
+\module{sys.argv}{http://learnpythonthehardway.org/book/ex13.html}.  If you're 
+feeling more comfortable and want to learn how command line arguments are 
+parsed in most modern python programs, look into 
+\module{argparse}{https://docs.python.org/2.7/howto/argparse.html}.  And if you 
+want to go out on a limb and try one of my favorite third-party libraries, look 
+into \module{docopt}{https://github.com/docopt/docopt}.
+
+\subsection{Calculating Torsion Angles}
+
+Once you've read in Cartesian coordinates for all the backbone atoms, you'll 
+need to calculate torsion angles.  This is not a trivial conversion.  You can 
+try to figure out how to do it yourself, but you can also just search for the 
+algorithm.  This will be a good place to practice writing your own functions.  
+New programmers tend to copy-and-paste code in places where they should write 
+functions.  Avoid that tendency here!
+
+If you are feeling comfortable with Python, try performing these calculations 
+using the powerful 
+\module{numpy}{http://wiki.scipy.org/Tentative_NumPy_Tutorial} vector math 
+library.  This is a very important library for scientific programmers, because 
+it makes it easy to work with large arrays of data.  It also makes Python feel 
+more like Matlab in some ways, which might be appealing to those with a Matlab 
+background.  Once you get oriented, you'll find that \texttt{numpy} makes this 
+calculation much easier.
+
+\subsection{Making Plots}
+
+Use \module{matplotlib}{http://matplotlib.org/users/pyplot_tutorial.html} to 
+generate your Ramachandran plot.  The documentation for \texttt{matplotlib} is 
+unfortunately pretty hard to understand, but the tutorial linked above isn't 
+bad.  If you get stuck, feel free to send me an email.
+
+\section{Future Directions}
+
+\subsection{Make a residue-specific plot}
+
+Glycine and proline have very distinctive Ramachandran plots.  Modify your 
+program to either show just glycines, just prolines, or everything except 
+glycine and proline.  There won't be enough glycines or prolines in a single 
+structure to really show what these plots look like, so try combining this with 
+the challenge below to fill in your plots.  Also, you might find it interesting 
+to ponder why glycine and proline have distinctive plots if you don't already 
+know.
+
+\subsection{Make a combined plot for 10,000 structures}
+
+Working with lots of data is an important skill for scientific programmers.  
+Toward that end, I uploaded a subset of the CATH database comprising 11,926 PDB 
+files to the website.  Download this data and modify your program to create a 
+single Ramachandran plot for all of it.  Experiment with ways to speed up your 
+program and to clearly present so many data points.
+
+\subsection{Automatically download PDB files}
+
+One of the nice things about Python is that it's not just for scientific 
+programming, so there are libraries for doing things like downloading data from 
+the web.  The PDB in particular makes it very easy to automatically download 
+structures.  Modify your program to accept a PDB ID rather than an actual file, 
+then download that structure from the PDB and use it to generate the plot.
+The \module{requests}{http://docs.python-requests.org} library is a good place 
+to start.
+
+\end{document}

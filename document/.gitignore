@@ -1,0 +1,6 @@
+*.dvi
+*.log
+*.out
+!example-plot.pdf
+!three-residues.pdf
+
