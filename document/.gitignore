@@ -1,6 +1,8 @@
 *.dvi
 *.log
 *.out
+*.aux
+rama-project.pdf
 !example-plot.pdf
 !three-residues.pdf
 
