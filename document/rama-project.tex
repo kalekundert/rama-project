@@ -69,8 +69,8 @@ essential for scientific programming:
  \item Plotting your results.
 \end{enumerate}
 
-If you have any questions about programming or this project, send me an email 
-at \href{mailto:kale.kundert@ucsf.edu}{kale.kundert@ucsf.edu}.
+If you have any questions about this project or programming in general, send me 
+an email at \href{mailto:kale.kundert@ucsf.edu}{kale.kundert@ucsf.edu}.
 
 \section{What is a Ramachandran Plot?}
 
@@ -237,12 +237,11 @@ Once you've read in Cartesian coordinates for all the backbone atoms, you'll
 need to calculate torsion angles.  This is not a trivial conversion, but you 
 can find the algorithm 
 \href{http://math.stackexchange.com/questions/47059/how-do-i-calculate-a-dihedral-angle-given-cartesian-coordinates}{here}.  
-
-This algorithm involves a healthy dose of vector arithmetic.  Since python 
-doesn't have built-in support for vector arithmetic, so you'll have to write 
-write some vector arithmetic code yourself.  A vector is really nothing more 
-than a set of three coordinates.  Use tuples to store these coordinates.  Then 
-write and test functions to perform the following tasks:
+This algorithm involves a healthy dose of vector arithmetic.  Since Python 
+doesn't have built-in support for vector arithmetic, you'll have to write that 
+code yourself.  A vector is really nothing more than a set of three coordinates.  Use tuples to 
+store these coordinates.  Then write and test functions to perform the 
+following tasks:
 
 \begin{enumerate}
  \item Add two vectors.
@@ -252,10 +251,10 @@ write and test functions to perform the following tasks:
  \item Calculate a cross product.
 \end{enumerate}
 
-For example, your function that adds vectors would take two tuples as arguments 
-and return their sum as a single tuple.  This is a good place to practice 
-writing your own functions.  New programmers tend to copy-and-paste code in 
-places where they should write functions.  Avoid that tendency here!
+For example, your function that adds vectors should take two tuples as 
+arguments and return their sum as a single tuple.  This is a good place to 
+practice writing your own functions.  New programmers tend to copy-and-paste 
+code in places where they should write functions.  Avoid that tendency here!
 
 If you are feeling comfortable with functions and you want to learn more about 
 object-oriented programming, try writing a vector class.  Classes are useful 
