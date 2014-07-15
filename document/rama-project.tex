@@ -76,7 +76,7 @@ an email at \href{mailto:kale.kundert@ucsf.edu}{kale.kundert@ucsf.edu}.
 
 I'll explain exactly what a Ramachandran plot is below, but I'll begin by 
 introducing some basic terminology.  This is necessarily a brief introduction, 
-so feel free to email me for clarification if you get lost.  First of all, 
+so feel free to email me for clarification if it's too fast.  First of all, 
 proteins are composed of amino acid residues.  Figure \ref{fig:three-residues} 
 shows three residues from a larger protein.  A distinction is made between the 
 backbone (blue) and the sidechains (red).  Every residue in the protein is 
@@ -87,7 +87,7 @@ the one that doesn't.
 
 \begin{figure}
  \centering
- \includegraphics[width=0.8\textwidth]{three-residues}
+ \includegraphics[width=0.65\textwidth]{three-residues}
  \caption{Three residues with the backbone and sidechains highlighted.}
  \label{fig:three-residues}
 \end{figure}
@@ -106,7 +106,7 @@ For each residue in a protein, three backbone torsions are defined:
 
 \begin{table}[h]
 \centering
-\begin{tabular}{ll}
+\begin{tabular}{cc}
 \toprule
 Torsion      & Backbone Atoms                                               \\
 \midrule
@@ -129,8 +129,8 @@ for each residue.  The \bbphi{} angles are plotted along the x-axis and the
 never deviate much from 180\degree.  
 
 Figure \ref{fig:example-plot} shows the Ramachandran plot for PDB ID: 1AXC, 
-which is one of the structures you'll use for this project.  Note that there 
-are two distinct clusters of points.  These represent two specific backbone 
+which is one of the structures I uploaded for you to use.  Note that there are 
+two distinct clusters of points.  These represent two specific backbone 
 conformations that are common in folded proteins: \ahelices{} (lower cluster) 
 and \bsheets{} (upper cluster).  The ability to easily identify which residues 
 are contributing to well-known, stable structural motifs is what makes 
@@ -151,8 +151,9 @@ output.  This is meant to be a challenging task for someone new to Python, so
 before starting you should work through an online tutorial.  There are lots of 
 tutorials out there geared towards all different skill levels, but my favorite 
 is \href{http://learnpythonthehardway.org/book}{Learn Python the Hard Way}.  
-Once you get started, use the paragraphs below to guide how you write your  
-program.  Some example inputs are also available for you to download from the 
+Once you are ready to start the project, use the paragraphs below to guide how 
+you write your  program.  Some example inputs are also available for you to 
+download from the 
 \href{https://sites.google.com/site/ipqbbootcamp2014/programming}{bootcamp 
 website}.
 
@@ -160,10 +161,10 @@ website}.
 
 PDB files contain information about the 3D structure of protein.  PDB stands 
 for Protein Data Bank, which is online database of protein structures.  These  
-files are regular text files (so you can view them using the same program you 
-edit Python code with) where each line contains different information about the 
-structure.  The lines containing the information relevant to this project all 
-begin with the keyword \texttt{ATOM}.  
+files are regular text files (so you can view them with the same program you 
+use to edit Python code) where each line contains different information about 
+the structure.  The lines containing the information relevant to this project 
+all begin with the keyword \texttt{ATOM}.  
 
 \begin{listing}[h]
 \centering
@@ -178,16 +179,17 @@ ATOM   2305  CA  ILE A 255      35.578   9.357   5.792  1.00 43.22           C
 
 Listing \ref{list:pdb-example} shows an example \atomrec{}.  (The gray numbers 
 aren't part of the record; they're just numbering the columns.)  Each 
-\atomrec{} identifies a particular atom and specifies it's coordinates.  
-Different pieces of information about the atom are always given at a fixed 
-offset from the beginning of the line.  For example, the \nth{13} - \nth{16} 
+\atomrec{} identifies a particular atom and specifies its coordinates.  
+Different pieces of information about the atom are given at different offsets 
+from the beginning of the line.  For example, the \nth{13} - \nth{16} 
 characters of our example (\texttt{CA}) specify that the atom in question is a 
 \calpha{}.  The \nth{18} - \nth{20} characters (\texttt{ILE}) specify that the 
 atom is part of an isoleucine residue.
-Table \ref{tab:pdb-atom-record} describes all of the \atomrec{} fields that are 
-relevant to this project.  The complete 
-\href{http://www.wwpdb.org/documentation/format33/v3.3.html}{PDB file format} 
-is also available if you want more information.
+Table \ref{tab:pdb-atom-record} describes the \atomrec{} fields that are most 
+relevant to this project.  
+
+%The complete \href{http://www.wwpdb.org/documentation/format33/v3.3.html}{PDB 
+%file format} is also available if you want more information.
 
 \begin{table}[h]
 \centering
@@ -214,8 +216,9 @@ of programming (and many other things).  When starting this project, don't try
 to write the whole thing at once.  Instead, take smaller steps.  Perhaps start 
 by printing out all the lines in a PDB file.  Once that works, then try 
 printing out only lines that correspond to backbone atoms.  Then try printing 
-out only the Cartesian coordinates for those lines.  Once you have all that 
-working, then start thinking about how to calculate torsion angles.
+out only the Cartesian coordinates for those lines.  Whenever you get stuck, 
+think about ways you can at least get closer to your goal by making smaller 
+steps.
 
 \subsection{Using Command Line Arguments}
 
@@ -238,38 +241,61 @@ need to calculate torsion angles.  This is not a trivial conversion, but you
 can find the algorithm 
 \href{http://math.stackexchange.com/questions/47059/how-do-i-calculate-a-dihedral-angle-given-cartesian-coordinates}{here}.  
 This algorithm involves a healthy dose of vector arithmetic.  Since Python 
-doesn't have built-in support for vector arithmetic, you'll have to write that 
-code yourself.  A vector is really nothing more than a set of three coordinates.  Use tuples to 
-store these coordinates.  Then write and test functions to perform the 
-following tasks:
+doesn't have built-in support for vector arithmetic, you'll have to do it  
+yourself.  A vector is really nothing more than a set of three coordinates.  
+Use tuples to store these coordinates.  Then write and test functions to 
+perform the tasks outlined in Table \ref{tab:vector-functions}.
 
-\begin{enumerate}
- \item Add two vectors.
- \item Subtract two vectors.
- \item Normalize a vector.
- \item Calculate a dot product.
- \item Calculate a cross product.
-\end{enumerate}
+\begin{table}[h]
+\centering
+\begin{tabular}{lll}
+\toprule
+Function                  & Example Input                & Example Output              \\
+\midrule
+Add two vectors           &
+ \texttt{(1, 2, 3) (3, 4, 5)} & \texttt{(4, 6, 8)}          \\
+Subtract two vectors      &
+ \texttt{(1, 2, 3) (3, 4, 5)} & \texttt{(-2, -2, -2)}       \\
+Normalize a vector        &
+ \texttt{(1, 2, 3)}           & \texttt{(0.27, 0.53, 0.80)} \\
+Calculate a dot product   &
+ \texttt{(1, 2, 3) (3, 4, 5)} & \texttt{26}                 \\
+Calculate a cross product &
+ \texttt{(1, 2, 3) (3, 4, 5)} & \texttt{(-2, 4, -2)}        \\
+\bottomrule
+\end{tabular}
+\caption{Vector arithmetic functions.}
+\label{tab:vector-functions}
+\end{table}
 
-For example, your function that adds vectors should take two tuples as 
-arguments and return their sum as a single tuple.  This is a good place to 
-practice writing your own functions.  New programmers tend to copy-and-paste 
-code in places where they should write functions.  Avoid that tendency here!
+Once you have written these functions, use them to create another function that 
+calculates a torsion angle using the above algorithm.  This function should 
+take four vectors as input and return a single angle as output.  
+
+Functions are a good way to reduce \emph{code duplication}, which is when the 
+same code appears multiple times in the same program.  Inexperienced 
+programmers tend to duplicate a lot of code because they copy-and-paste instead 
+of writing functions.  This is a problem because it makes the code easy to 
+break later on; you could change how the code works in one place and forget to 
+update all the places it was copied.  It's better to write a single function 
+and to call it from anywhere you need to, so you can change the function itself 
+later on and be sure that the rest of your code stays up to date.  While you're 
+working on this part of the project, be aware of code duplication and try to 
+avoid it.
 
 If you are feeling comfortable with functions and you want to learn more about 
 object-oriented programming, try writing a vector class.  Classes are useful 
 when you want to associate a particular set of data with a particular set of 
-functions (usually called methods in this context).  Vectors make an ideal 
-class, because the coordinates are clearly the data and the arithmetic helpers 
-are clearly the methods.
+functions.  Vectors make an ideal class, because the coordinates are clearly 
+the data and the arithmetic helpers are clearly the functions.
 
 If you are feeling comfortable with functions and classes, try performing these 
 calculations using the 
 \module{numpy}{http://wiki.scipy.org/Tentative_NumPy_Tutorial} vector math 
 library.  This is a very important library for scientific programmers, because 
-it makes it easy to work with large arrays of data.  It also makes Python feel 
-more like Matlab in some ways, which might be appealing to those with a Matlab 
-background.  Once you get past the learning curve, you'll find that 
+it really facilitates working with large arrays of data.  It also makes Python 
+feel more like Matlab in some ways, which might be appealing to those with a 
+Matlab background.  Once you get past the learning curve, you'll find that 
 \texttt{numpy} makes this calculation much easier.
 
 \subsection{Making Plots}
@@ -281,35 +307,36 @@ bad.  If you get stuck, feel free to send me an email.
 
 \section{Future Directions}
 
-If you found this project to be helpful, I've outlined several ways you can 
+If you found this project to be useful, I've outlined several ways you can 
 expand it to continue improving your ability as a scientific programmer.
 
-\subsection{Make a residue-specific plot}
+\subsection{1. Make a residue-specific plot}
 
 Glycine and proline have very distinctive Ramachandran plots.  Modify your 
 program to either show just glycines, just prolines, or everything except 
 glycine and proline.  There won't be enough glycines or prolines in a single 
 structure to really show what these plots look like, so try combining this with 
-the challenge below to fill in your plots.  Also, you might find it interesting 
-to ponder why glycine and proline have distinctive plots if you don't already 
-know.
+the challenge below to really fill in your plots.  Also, you might find it 
+interesting to ponder why glycine and proline have distinctive plots if you 
+don't already know.
 
-\subsection{Make a combined plot for 10,000 structures}
+\subsection{2. Make a combined plot for 10,000 structures}
 
 Working with lots of data is an important skill for scientific programmers.  
 Toward that end, I uploaded a subset of the CATH database comprising 11,926 PDB 
 files to the website.  Download this data and modify your program to create a 
-single Ramachandran plot for all of it.  Experiment with ways to speed up your 
-program and to clearly present so many data points.
+single Ramachandran plot for all of it.  Experiment with ways to quickly 
+process so many files and to clearly present so many data points.
 
-\subsection{Automatically download PDB files}
+\subsection{3. Automatically download PDB files}
 
 One of the nice things about Python is that it's not just for scientific 
 programming, so there are libraries for doing things like downloading data from 
-the web.  The PDB in particular makes it very easy to automatically download 
-structures.  Modify your program to accept a PDB ID rather than an actual file, 
-then download that structure from the PDB and use it to generate the plot.
-The \module{requests}{http://docs.python-requests.org} library is a good place 
+the web.  The PDB in particular makes it very easy to 
+\href{http://www.rcsb.org/pdb/software/rest.do#search}{automatically download 
+structures}.  Modify your program to accept a PDB ID rather than an actual 
+file, then download that structure from the PDB and use it to generate the 
+plot.  The \module{requests}{http://docs.python-requests.org} library is a good place 
 to start.
 
 \end{document}
