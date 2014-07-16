@@ -27,36 +27,14 @@
   citecolor    = black
 }
 
-\definecolor{grey}{gray}{0.75}
+\definecolor{grey}{gray}{0.65}
 
 \newfloat{listing}{thp}{lop}
 \floatname{listing}{Listing}
 
+\usemintedstyle{borland}
+
 \setcounter{secnumdepth}{0}
-
-
-\usepackage{listings}
-\lstset{language=Python,
- numbers=left, numberstyle=\tiny, stepnumber=1, numbersep=5pt,
- basicstyle=\small,breaklines=true,breakatwhitespace=true,
- stringstyle=\ttfamily,showstringspaces=false}
-
-\newcommand{\codeSection}[1]{
-  \begin{figure}
-    \texttt{\lstinputlisting{#1}}
-    \caption{#1}
-    \label{fig:#1}
-  \end{figure}
-}
-
-\newcommand{\pythonSection}[1]{
-  \begin{figure}
-    \inputminted[linenos,numbersep=5pt,
-      frame=lines,framesep=2mm]{python}{#1}
-    \caption{#1}
-    \label{fig:#1}
-  \end{figure}
- }
 
 \newcommand{\calpha}{C\textsubscript{\textgreek{a}}}
 \newcommand{\ahelices}{\textgreek{a}-helices}
@@ -178,20 +156,15 @@ Ramachandran plots useful for structural validation and prediction.
 
 Your task is to create a program written in Python that takes a PDB file 
 (specified on the command line) as input and produces a Ramachandran plot as 
-output.  This is meant to be a challenging task for someone new to Python, so 
-before starting you should work through an online tutorial.  There are lots of 
-tutorials out there geared towards all different skill levels, but my favorite 
-is \href{http://learnpythonthehardway.org/book}{Learn Python the Hard Way}.  
-Once you are ready to start the project, use the paragraphs below to guide how 
-you write your  program.  Some example inputs are also available for you to 
-download from the 
-\href{http://bootcamp.ipqb.org/programming}{bootcamp
-website}.
-
-If you haven't yet set up your computer to write and run Python programs,
-check out
-\href{http://learnpythonthehardway.org/book/ex0.html}
-{the relevant section of Python the hard way}.
+output.  Before starting you should work through an online tutorial.  There are 
+lots of tutorials out there geared towards all different skill levels, but my 
+favorite is \href{http://learnpythonthehardway.org/book}{Learn Python the Hard 
+Way}.  It  includes  a 
+\href{http://learnpythonthehardway.org/book/ex0.html}{section} on how to setup 
+your computer to write and run Python programs.  Once you are ready to start 
+the project, use the paragraphs below to guide how you write your  program.  
+You can also download some example inputs from the
+\href{http://bootcamp.ipqb.org/programming}{bootcamp website}.
 
 \subsection{Part 1: Using Command Line Arguments}
 
@@ -265,20 +238,6 @@ is also available online if you're interested.
 \label{tab:pdb-atom-record}
 \end{table}
 
-% Important to break down big problems.  Below are some ideas on how to break 
-% down some things.  But you still have to figure out how to separate the phi 
-% and psi values...
-
-%Learning how to break big problems into smaller problems is an important part 
-%of programming (and many other things).  When starting this project, don't try 
-%to write the whole thing at once.  Instead, take smaller steps.  Perhaps start 
-%by printing out all the lines in a PDB file.  Once that works, then try 
-%printing out only lines that correspond to backbone atoms.  Then try printing 
-%out only the Cartesian coordinates for those lines.  
-%
-%Whenever you get stuck, think about ways you can at least get closer to your 
-%goal by making smaller steps.
-
 Learning how to break big problems into smaller problems is an important skill 
 for new programmers to practice.  This part of the project is a good place to 
 do so because there are lots of ways to take small steps and get intermediate 
@@ -318,10 +277,11 @@ calculation
 \href{http://math.stackexchange.com/questions/47059/how-do-i-calculate-a-dihedral-angle-given-cartesian-coordinates}{here}.  
 Notice that this algorithm involves a healthy dose of vector arithmetic.  Since 
 Python doesn't have built-in support for vector arithmetic, you'll have to do 
-it  yourself.  A vector is really nothing more than a set of three coordinates.  
-So our vectors will be the tuples we used above to store the backbone atom 
-coordinates.  You will need to write and test functions to perform the tasks 
-outlined in Table \ref{tab:vector-functions}.
+it  yourself.  A vector is really nothing more than a set of three coordinates, 
+like the tuples we used above to store the backbone atom coordinates.  You will 
+need to write and test functions to perform the tasks outlined in Table 
+\ref{tab:vector-functions}.  Listing\ \ref{lst:example-function} shows what one 
+of these functions might look like.
 
 \begin{table}[h]
 \centering
@@ -345,25 +305,27 @@ Calculate a cross product &
 \label{tab:vector-functions}
 \end{table}
 
+\begin{listing}[h]
+ \inputminted{python}{example-function.py}
+ \caption{Example addition function.}
+ \label{lst:example-function}
+\end{listing}
+
 Once you have written these functions, use them to create another function that 
 calculates a torsion angle using the above algorithm.  This function should 
 take four vectors as input and return a single angle as output.  
 
-Functions are a good way to reduce code duplication, which is when the same 
-code appears multiple times in the same program.  Inexperienced programmers 
-tend to duplicate a lot of code because they copy-and-paste instead of writing 
-functions.  This is a problem because it makes the code easy to break later on; 
-you could change how the code works in one place and forget to update all the 
-places it was copied.  It's better to write a single function and to call it 
-from anywhere you need to, so you can change the function itself later on and 
-be sure that the rest of your code stays up to date.  While you're working on 
-this part of the project, be aware of code duplication and try to avoid it.  
-(For example, the add and subtract functions are quite similar.  Can you use 
-one to write the other?)
-Figure\ \ref{fig:vector-functions.py} contains an example
-of what one of your vector functions might look like.
-
-\pythonSection{vector-functions.py}
+Functions are a good way to reduce \emph{code duplication}, which is when the 
+same code appears multiple times in the same program.  Inexperienced 
+programmers tend to duplicate a lot of code because they copy-and-paste instead 
+of writing functions.  This is a problem because it makes the code easy to 
+break later on; you could change how the code works in one place and forget to 
+update all the places it was copied.  It's better to write a single function 
+and to call it from anywhere you need to, so you can change the function itself 
+later on and be sure that the rest of your code stays up to date.  While you're 
+working on this part of the project, be aware of code duplication and try to 
+avoid it.  (For example, the add and subtract functions are quite similar.  Can 
+you use one to write the other?)
 
 If you are feeling comfortable with functions and you want to learn more about 
 object-oriented programming, try writing a vector class.  Classes are useful 
