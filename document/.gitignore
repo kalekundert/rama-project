@@ -2,6 +2,7 @@
 *.log
 *.out
 *.aux
+*.pyg
 rama-project.pdf
 !example-plot.pdf
 !three-residues.pdf

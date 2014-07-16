@@ -15,6 +15,7 @@
 \usepackage{color}
 \usepackage{float}
 \usepackage[super]{nth}
+\usepackage{minted}
 
 \titleformat*{\section}{\Large\bfseries}
 \titleformat*{\subsection}{\bfseries}
@@ -32,6 +33,30 @@
 \floatname{listing}{Listing}
 
 \setcounter{secnumdepth}{0}
+
+
+\usepackage{listings}
+\lstset{language=Python,
+ numbers=left, numberstyle=\tiny, stepnumber=1, numbersep=5pt,
+ basicstyle=\small,breaklines=true,breakatwhitespace=true,
+ stringstyle=\ttfamily,showstringspaces=false}
+
+\newcommand{\codeSection}[1]{
+  \begin{figure}
+    \texttt{\lstinputlisting{#1}}
+    \caption{#1}
+    \label{fig:#1}
+  \end{figure}
+}
+
+\newcommand{\pythonSection}[1]{
+  \begin{figure}
+    \inputminted[linenos,numbersep=5pt,
+      frame=lines,framesep=2mm]{python}{#1}
+    \caption{#1}
+    \label{fig:#1}
+  \end{figure}
+ }
 
 \newcommand{\calpha}{C\textsubscript{\textgreek{a}}}
 \newcommand{\ahelices}{\textgreek{a}-helices}
@@ -55,8 +80,9 @@
 
 \section{Introduction}
 
-The purpose of this project is to help you learn Python by giving you 
-challenging but relevant problem to practice on.  The project is to write a 
+The purpose of this project is to help you learn Python by giving you a
+challenging but relevant problem to practice on.  In this project,
+you will write a
 program that generates Ramachandran plots from PDB files.  Ramachandran plots 
 show how backbone torsion angles are distributed in proteins.  Different 
 features of proteins (namely \ahelices{} and \bsheets{}) occupy distinct 
@@ -97,7 +123,8 @@ the one that doesn't.
 \end{figure}
 
 Torsion angles are a convenient way to describe the geometry of the backbone.  
-A torsion angle can be intuitively described the amount of twist around a bond.  
+A torsion angle can be intuitively described
+as the amount of twist around a bond.
 To be more precise, consider four consecutive backbone atoms.  You always need 
 four atoms to define a torsion angle.  Use the first three atoms to construct 
 one plane and the last three atoms to construct another.  The angle between 
@@ -158,8 +185,13 @@ is \href{http://learnpythonthehardway.org/book}{Learn Python the Hard Way}.
 Once you are ready to start the project, use the paragraphs below to guide how 
 you write your  program.  Some example inputs are also available for you to 
 download from the 
-\href{https://sites.google.com/site/ipqbbootcamp2014/programming}{bootcamp 
+\href{http://bootcamp.ipqb.org/programming}{bootcamp
 website}.
+
+If you haven't yet set up your computer to write and run Python programs,
+check out
+\href{http://learnpythonthehardway.org/book/ex0.html}
+{the relevant section of Python the hard way}.
 
 \subsection{Part 1: Using Command Line Arguments}
 
@@ -328,6 +360,10 @@ be sure that the rest of your code stays up to date.  While you're working on
 this part of the project, be aware of code duplication and try to avoid it.  
 (For example, the add and subtract functions are quite similar.  Can you use 
 one to write the other?)
+Figure\ \ref{fig:vector-functions.py} contains an example
+of what one of your vector functions might look like.
+
+\pythonSection{vector-functions.py}
 
 If you are feeling comfortable with functions and you want to learn more about 
 object-oriented programming, try writing a vector class.  Classes are useful 
