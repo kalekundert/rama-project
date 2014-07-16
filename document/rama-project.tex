@@ -42,6 +42,10 @@
 \newcommand{\module}[2]{\href{#2}{\texttt{#1}}}
 \newcommand{\atomrec}{\texttt{ATOM} record}
 
+\newenvironment{problems}
+{\subsubsection{Before moving on...} \begin{enumerate}}
+{\end{enumerate}}
+
 \begin{document}
 
 \title{Making Ramachandran Plots}
@@ -138,7 +142,7 @@ Ramachandran plots useful for structural validation and prediction.
 
 \begin{figure}
  \centering
- \includegraphics[width=0.57\textwidth]{example-plot}
+ \includegraphics[width=0.48\textwidth]{example-plot}
  \caption{Ramachardran plot for PDB ID: 1AXC}
  \label{fig:example-plot}
 \end{figure}
@@ -157,7 +161,26 @@ download from the
 \href{https://sites.google.com/site/ipqbbootcamp2014/programming}{bootcamp 
 website}.
 
-\subsection{Reading PDB Files}
+\subsection{Part 1: Using Command Line Arguments}
+
+Your program should accept the name of a PDB file as a command line argument.  
+This will allow you to easily generate Ramachandran plots for different 
+structures without having to change your script itself.  There are several ways 
+to use command line arguments from python scripts.  If you're feeling 
+overwhelmed and just want anything that works, look into 
+\module{sys.argv}{http://learnpythonthehardway.org/book/ex13.html}.  If you're 
+feeling more comfortable and want to learn how command line arguments are 
+parsed in most modern python programs, look into 
+\module{argparse}{https://docs.python.org/2.7/howto/argparse.html}.  And if you 
+want to try an up-and-coming \texttt{argparse} alternative that beautifully 
+marries parsing and documentation, look into 
+\module{docopt}{https://github.com/docopt/docopt}.
+
+\begin{problems}
+\item Print out the name of a file specified on the command line.
+\end{problems}
+
+\subsection{Part 2: Reading PDB Files}
 
 PDB files contain information about the 3D structure of protein.  PDB stands 
 for Protein Data Bank, which is online database of protein structures.  These  
@@ -186,10 +209,9 @@ characters of our example (\texttt{CA}) specify that the atom in question is a
 \calpha{}.  The \nth{18} - \nth{20} characters (\texttt{ILE}) specify that the 
 atom is part of an isoleucine residue.
 Table \ref{tab:pdb-atom-record} describes the \atomrec{} fields that are most 
-relevant to this project.  
-
-%The complete \href{http://www.wwpdb.org/documentation/format33/v3.3.html}{PDB 
-%file format} is also available if you want more information.
+relevant to this project.  The complete 
+\href{http://www.wwpdb.org/documentation/format33/v3.3.html}{PDB file format} 
+is also available online if you're interested.
 
 \begin{table}[h]
 \centering
@@ -211,40 +233,63 @@ relevant to this project.
 \label{tab:pdb-atom-record}
 \end{table}
 
-Learning how to break big problems into smaller problems is an important part 
-of programming (and many other things).  When starting this project, don't try 
-to write the whole thing at once.  Instead, take smaller steps.  Perhaps start 
-by printing out all the lines in a PDB file.  Once that works, then try 
-printing out only lines that correspond to backbone atoms.  Then try printing 
-out only the Cartesian coordinates for those lines.  Whenever you get stuck, 
-think about ways you can at least get closer to your goal by making smaller 
-steps.
+% Important to break down big problems.  Below are some ideas on how to break 
+% down some things.  But you still have to figure out how to separate the phi 
+% and psi values...
 
-\subsection{Using Command Line Arguments}
+%Learning how to break big problems into smaller problems is an important part 
+%of programming (and many other things).  When starting this project, don't try 
+%to write the whole thing at once.  Instead, take smaller steps.  Perhaps start 
+%by printing out all the lines in a PDB file.  Once that works, then try 
+%printing out only lines that correspond to backbone atoms.  Then try printing 
+%out only the Cartesian coordinates for those lines.  
+%
+%Whenever you get stuck, think about ways you can at least get closer to your 
+%goal by making smaller steps.
 
-Your program should accept the name of a PDB file as a command line argument.  
-This will allow you to easily generate Ramachandran plots for different 
-structures without having to change your script itself.  There are several ways 
-to use command line arguments from python scripts.  If you're feeling 
-overwhelmed and just want anything that works, look into 
-\module{sys.argv}{http://learnpythonthehardway.org/book/ex13.html}.  If you're 
-feeling more comfortable and want to learn how command line arguments are 
-parsed in most modern python programs, look into 
-\module{argparse}{https://docs.python.org/2.7/howto/argparse.html}.  And if you 
-want to try an \texttt{argparse} alternative that beautifully marries parsing 
-and documentation, look into \module{docopt}{https://github.com/docopt/docopt}.
+Learning how to break big problems into smaller problems is an important skill 
+for new programmers to practice.  This part of the project is a good place to 
+do so because there are lots of ways to take small steps and get intermediate 
+results when parsing a file.  The milestones listed below break down some of 
+your first steps, but they may still be challenging.  If you get stuck, think 
+about ways to break down these steps even further.
 
-\subsection{Calculating Torsion Angles}
+\begin{problems}
+ \item Print out all the lines in a PDB specified on the command line.
+
+ \item The same as above, but only print lines corresponding to backbone atoms 
+  (i.e. lines where the atom name is either \texttt{N}, \texttt{CA}, or 
+  \texttt{C}).
+
+ \item The same as above, but only print the coordinates of the backbone atoms.
+
+ \item Store the coordinates for each backbone atom in a tuple of three floats, 
+  then store each of these tuples in a list.  Note that the coordinates have to 
+  be converted to floats, because they are read in as strings.  As an example, 
+  you should end up with a data structure that looks something like this: 
+
+  \texttt{[(36.886, 53.177, 21.887), (38.323, 52.817, 21.996), ...]}
+
+ \item To calculate each \bbphi{} and \bbpsi{} torsion, you need coordinates 
+  for four atoms.  Table \ref{tab:backbone-torsions} shows which coordinates 
+  are needed for which torsion.  Write two loops: one that prints out the four 
+  coordinates required for each \bbphi{} torsion and one that does the same for 
+  each \bbpsi{} torsion.
+
+\end{problems}
+
+\subsection{Part 3: Calculating Torsion Angles}
 
 Once you've read in Cartesian coordinates for all the backbone atoms, you'll 
-need to calculate torsion angles.  This is not a trivial conversion, but you 
-can find the algorithm 
+need to calculate torsion angles.  You can find the algorithm for this 
+calculation 
 \href{http://math.stackexchange.com/questions/47059/how-do-i-calculate-a-dihedral-angle-given-cartesian-coordinates}{here}.  
-This algorithm involves a healthy dose of vector arithmetic.  Since Python 
-doesn't have built-in support for vector arithmetic, you'll have to do it  
-yourself.  A vector is really nothing more than a set of three coordinates.  
-Use tuples to store these coordinates.  Then write and test functions to 
-perform the tasks outlined in Table \ref{tab:vector-functions}.
+Notice that this algorithm involves a healthy dose of vector arithmetic.  Since 
+Python doesn't have built-in support for vector arithmetic, you'll have to do 
+it  yourself.  A vector is really nothing more than a set of three coordinates.  
+So our vectors will be the tuples we used above to store the backbone atom 
+coordinates.  You will need to write and test functions to perform the tasks 
+outlined in Table \ref{tab:vector-functions}.
 
 \begin{table}[h]
 \centering
@@ -272,16 +317,17 @@ Once you have written these functions, use them to create another function that
 calculates a torsion angle using the above algorithm.  This function should 
 take four vectors as input and return a single angle as output.  
 
-Functions are a good way to reduce \emph{code duplication}, which is when the 
-same code appears multiple times in the same program.  Inexperienced 
-programmers tend to duplicate a lot of code because they copy-and-paste instead 
-of writing functions.  This is a problem because it makes the code easy to 
-break later on; you could change how the code works in one place and forget to 
-update all the places it was copied.  It's better to write a single function 
-and to call it from anywhere you need to, so you can change the function itself 
-later on and be sure that the rest of your code stays up to date.  While you're 
-working on this part of the project, be aware of code duplication and try to 
-avoid it.
+Functions are a good way to reduce code duplication, which is when the same 
+code appears multiple times in the same program.  Inexperienced programmers 
+tend to duplicate a lot of code because they copy-and-paste instead of writing 
+functions.  This is a problem because it makes the code easy to break later on; 
+you could change how the code works in one place and forget to update all the 
+places it was copied.  It's better to write a single function and to call it 
+from anywhere you need to, so you can change the function itself later on and 
+be sure that the rest of your code stays up to date.  While you're working on 
+this part of the project, be aware of code duplication and try to avoid it.  
+(For example, the add and subtract functions are quite similar.  Can you use 
+one to write the other?)
 
 If you are feeling comfortable with functions and you want to learn more about 
 object-oriented programming, try writing a vector class.  Classes are useful 
@@ -298,17 +344,29 @@ feel more like Matlab in some ways, which might be appealing to those with a
 Matlab background.  Once you get past the learning curve, you'll find that 
 \texttt{numpy} makes this calculation much easier.
 
-\subsection{Making Plots}
+\begin{problems}
+ \item Write and test all the described above.
+ \item Create two lists: one that contains all the \bbphi{} torsions and one 
+  that contains all the \bbpsi{} torsions.  This should build on the two loops 
+  you wrote at the end of the previous section.
+\end{problems}
+
+\subsection{Part 4: Making Plots}
 
 Use \module{matplotlib}{http://matplotlib.org/users/pyplot_tutorial.html} to 
 generate your Ramachandran plot.  The documentation for \texttt{matplotlib} is 
-unfortunately pretty hard to understand, but the tutorial linked above isn't 
-bad.  If you get stuck, feel free to send me an email.
+so detailed that it's actually pretty hard to understand, but the tutorial 
+linked above isn't bad.  If you get stuck, feel free to send me an email.
+
+\pagebreak
 
 \section{Future Directions}
 
-If you found this project to be useful, I've outlined several ways you can 
-expand it to continue improving your ability as a scientific programmer.
+If you found this project to be useful and you want to continue improving your 
+scientific programming skills, you might try one or more of the extra 
+challenges listed below.  The first is the easiest, the second is focused on 
+handling lots of data, and the third is focused on Python as a general-purpose 
+language.
 
 \subsection{1. Make a residue-specific plot}
 
@@ -331,12 +389,12 @@ process so many files and to clearly present so many data points.
 \subsection{3. Automatically download PDB files}
 
 One of the nice things about Python is that it's not just for scientific 
-programming, so there are libraries for doing things like downloading data from 
-the web.  The PDB in particular makes it very easy to 
+programming, so there are libraries for doing things like downloading files 
+from the web.  The PDB in particular makes it very easy to 
 \href{http://www.rcsb.org/pdb/software/rest.do#search}{automatically download 
 structures}.  Modify your program to accept a PDB ID rather than an actual 
 file, then download that structure from the PDB and use it to generate the 
-plot.  The \module{requests}{http://docs.python-requests.org} library is a good place 
-to start.
+plot.  The \module{requests}{http://docs.python-requests.org} library is a good 
+place to start.
 
 \end{document}
