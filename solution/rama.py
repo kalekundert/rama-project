@@ -2,15 +2,11 @@
 
 from __future__ import division
 
-import argparse
+import sys
 import vector
 import pylab
 
-parser = argparse.ArgumentParser()
-parser.add_argument('input')
-arguments = parser.parse_args()
-
-input = arguments.input
+input = sys.argv[1]
 backbone = 'N', 'CA', 'C'
 coordinates = []
 phi = []
@@ -20,19 +16,18 @@ psi = []
 
 with open(input) as file:
     for line in file:
-        fields = line.split()
-        field_type = fields[0]
+        field_type = line[0:6].strip()
 
         if field_type == 'ATOM':
-            atom_name = fields[2]
-            chain_id = fields[4]
+            atom_name = line[12:16].strip()
+            chain_id = line[21:22].strip()
 
             if atom_name in backbone and chain_id == 'A':
-                x = float(fields[6])
-                y = float(fields[7])
-                z = float(fields[8])
+                x = float(line[30:38])
+                y = float(line[38:46])
+                z = float(line[46:54])
 
-                coordinate = [x, y, z]
+                coordinate = x, y, z
                 coordinates.append(coordinate)
 
 # Calculate phi, psi, and omega torsion angles.

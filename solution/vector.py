@@ -3,16 +3,16 @@ from __future__ import division
 import math
 
 def add(v1, v2):
-    return [v1[0] + v2[0], v1[1] + v2[1], v1[2] + v2[2]]
+    return v1[0] + v2[0], v1[1] + v2[1], v1[2] + v2[2]
 
 def subtract(v1, v2):
-    return [v1[0] - v2[0], v1[1] - v2[1], v1[2] - v2[2]]
+    return v1[0] - v2[0], v1[1] - v2[1], v1[2] - v2[2]
 
 def multiply(v, k):
-    return [k * v1[0], k * v1[1], k * v1[2]]
+    return k * v1[0], k * v1[1], k * v1[2]
 
 def divide(v, k):
-    return [v[0] / k, v[1] / k, v[2] / k]
+    return v[0] / k, v[1] / k, v[2] / k
 
 
 def magnitude(v):
@@ -25,9 +25,9 @@ def dot(v1, v2):
     return v1[0]*v2[0] + v1[1]*v2[1] + v1[2]*v2[2]
 
 def cross(v1, v2):
-    return [v1[1]*v2[2] - v1[2]*v2[1],
+    return (v1[1]*v2[2] - v1[2]*v2[1],
             v1[2]*v2[0] - v1[0]*v2[2],
-            v1[0]*v2[1] - v1[1]*v2[0]]
+            v1[0]*v2[1] - v1[1]*v2[0])
 
 
 def length(v1, v2):
