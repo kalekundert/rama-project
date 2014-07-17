@@ -85,7 +85,7 @@ an email at \href{mailto:kale.kundert@ucsf.edu}{kale.kundert@ucsf.edu}.
 I'll explain exactly what a Ramachandran plot is below, but I'll begin by 
 introducing some basic terminology.  This is necessarily a brief introduction, 
 so feel free to email me for clarification if it's too fast.  First of all, 
-proteins are composed of amino acid residues.  Figure \ref{fig:three-residues} 
+proteins are composed of amino acid residues.  Figure~\ref{fig:three-residues} 
 shows three residues from a larger protein.  A distinction is made between the 
 backbone (blue) and the sidechains (red).  Every residue in the protein is 
 connected through the backbone, which has a very regular pattern of atoms: 
@@ -137,7 +137,7 @@ for each residue.  The \bbphi{} angles are plotted along the x-axis and the
 \psi_i$ pair for one residue.  The \bbomega{} angles are left out because they 
 never deviate much from 180\degree.  
 
-Figure \ref{fig:example-plot} shows the Ramachandran plot for PDB ID: 1AXC, 
+Figure~\ref{fig:example-plot} shows the Ramachandran plot for PDB ID: 1AXC, 
 which is one of the structures I uploaded for you to use.  Note that there are 
 two distinct clusters of points.  These represent two specific backbone 
 conformations that are common in folded proteins: \ahelices{} (lower cluster) 
@@ -187,7 +187,7 @@ marries parsing and documentation, look into
 
 \subsection{Part 2: Reading PDB Files}
 
-PDB files contain information about the 3D structure of protein.  PDB stands 
+PDB files contain information about the 3D structure of proteins.  PDB stands 
 for Protein Data Bank, which is online database of protein structures.  These  
 files are regular text files (so you can view them with the same program you 
 use to edit Python code) where each line contains different information about 
@@ -205,7 +205,7 @@ ATOM   2305  CA  ILE A 255      35.578   9.357   5.792  1.00 43.22           C
 \label{list:pdb-example}
 \end{listing}
 
-Listing \ref{list:pdb-example} shows an example \atomrec{}.  (The gray numbers 
+Listing~\ref{list:pdb-example} shows an example \atomrec{}.  (The gray numbers 
 aren't part of the record; they're just numbering the columns.)  Each 
 \atomrec{} identifies a particular atom and specifies its coordinates.  
 Different pieces of information about the atom are given at different offsets 
@@ -213,7 +213,7 @@ from the beginning of the line.  For example, the \nth{13} - \nth{16}
 characters of our example (\texttt{CA}) specify that the atom in question is a 
 \calpha{}.  The \nth{18} - \nth{20} characters (\texttt{ILE}) specify that the 
 atom is part of an isoleucine residue.
-Table \ref{tab:pdb-atom-record} describes the \atomrec{} fields that are most 
+Table~\ref{tab:pdb-atom-record} describes the \atomrec{} fields that are most 
 relevant to this project.  The complete 
 \href{http://www.wwpdb.org/documentation/format33/v3.3.html}{PDB file format} 
 is also available online if you're interested.
@@ -262,7 +262,7 @@ about ways to break down these steps even further.
   \texttt{[(36.886, 53.177, 21.887), (38.323, 52.817, 21.996), ...]}
 
  \item To calculate each \bbphi{} and \bbpsi{} torsion, you need coordinates 
-  for four atoms.  Table \ref{tab:backbone-torsions} shows which coordinates 
+  for four atoms.  Table~\ref{tab:backbone-torsions} shows which coordinates 
   are needed for which torsion.  Write two loops: one that prints out the four 
   coordinates required for each \bbphi{} torsion and one that does the same for 
   each \bbpsi{} torsion.
@@ -276,12 +276,12 @@ need to calculate torsion angles.  You can find the algorithm for this
 calculation 
 \href{http://math.stackexchange.com/questions/47059/how-do-i-calculate-a-dihedral-angle-given-cartesian-coordinates}{here}.  
 Notice that this algorithm involves a healthy dose of vector arithmetic.  Since 
-Python doesn't have built-in support for vector arithmetic, you'll have to do 
-it  yourself.  A vector is really nothing more than a set of three coordinates, 
-like the tuples we used above to store the backbone atom coordinates.  You will 
-need to write and test functions to perform the tasks outlined in Table 
-\ref{tab:vector-functions}.  Listing\ \ref{lst:example-function} shows what one 
-of these functions might look like.
+Python doesn't have built-in support for vector arithmetic, you'll have to 
+write and test your own functions to perform the tasks outlined in 
+Table~\ref{tab:vector-functions}.  Listing~\ref{lst:example-function} shows 
+what one of these functions might look like.  Keep in mind that a vector is 
+nothing more than a set of three coordinates, like the tuples we used above to 
+store the backbone atom coordinates.  
 
 \begin{table}[h]
 \centering
@@ -343,7 +343,7 @@ Matlab background.  Once you get past the learning curve, you'll find that
 \texttt{numpy} makes this calculation much easier.
 
 \begin{problems}
- \item Write and test all the described above.
+ \item Write and test all the functions described above.
  \item Create two lists: one that contains all the \bbphi{} torsions and one 
   that contains all the \bbpsi{} torsions.  This should build on the two loops 
   you wrote at the end of the previous section.
