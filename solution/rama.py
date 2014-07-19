@@ -20,9 +20,8 @@ with open(input) as file:
 
         if field_type == 'ATOM':
             atom_name = line[12:16].strip()
-            chain_id = line[21:22].strip()
 
-            if atom_name in backbone and chain_id == 'A':
+            if atom_name in backbone:
                 x = float(line[30:38])
                 y = float(line[38:46])
                 z = float(line[46:54])
