@@ -9,8 +9,8 @@ import pylab
 input = sys.argv[1]
 backbone = 'N', 'CA', 'C'
 coordinates = []
-phi = []
-psi = []
+phis = []
+psis = []
 
 # Read in coordinate data from the PDB file.
 
@@ -31,34 +31,24 @@ with open(input) as file:
 
 # Calculate all the phi and psi torsions.
 
-num_phi = len(coordinates) // 3 - 2
-num_psi = len(coordinates) // 3 - 2
+num_residues = len(coordinates) // 3 - 2
 
-for i in range(num_phi):
-    v1 = coordinates[3 * i + 2]
-    v2 = coordinates[3 * i + 3]
-    v3 = coordinates[3 * i + 4]
-    v4 = coordinates[3 * i + 5]
+for i in range(1, num_residues):
+    v1 = coordinates[3 * i - 1]
+    v2 = coordinates[3 * i + 0]
+    v3 = coordinates[3 * i + 1]
+    v4 = coordinates[3 * i + 2]
+    v5 = coordinates[3 * i + 3]
 
-    angle = vector.torsion(v1, v2, v3, v4)
-    phi.append(angle)
+    phi = vector.torsion(v1, v2, v3, v4)
+    psi = vector.torsion(v2, v3, v4, v5)
 
-    print v1, v2, v3, v4
-    print angle
-
-for i in range(num_psi):
-    v1 = coordinates[3 * i + 3]
-    v2 = coordinates[3 * i + 4]
-    v3 = coordinates[3 * i + 5]
-    v4 = coordinates[3 * i + 6]
-
-    angle = vector.torsion(v1, v2, v3, v4)
-    psi.append(angle)
+    phis.append(phi)
+    psis.append(psi)
 
 # Generate the Ramachandran plot.
 
-pylab.title("Ramachandran Plot (%s)" % input)
-pylab.plot(phi, psi, '.')
+pylab.plot(phis, psis, '.')
 pylab.xlabel('Phi')
 pylab.ylabel('Psi')
 pylab.xlim(-180, 180)
