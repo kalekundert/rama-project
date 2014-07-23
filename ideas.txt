@@ -1,0 +1,4 @@
+1. Code review during first afternoon
+    Break into pairs and review each others code.  Newbies get to try to 
+    understand expert code, and experts get to critique newbie code.
+
