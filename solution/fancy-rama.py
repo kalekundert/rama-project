@@ -17,18 +17,30 @@ Options:
 from __future__ import division
 
 def pdb_from_file_or_tag(file_or_tag):
+    """ Return the contents of a PDB file. """
+
     import os
     import requests
+
+    # If the argument is a file, open it and return its contents.
 
     if os.path.exists(file_or_tag):
         with open(file_or_tag) as file:
             return file.read()
+
+    # Otherwise attempt to download the structure from the PDB.
+
     else:
         url = 'http://www.rcsb.org/pdb/files/{0}.pdb'.format(path_or_tag)
         return requests.get(url).text
 
 def atoms_from_pdb(pdb):
+    """ Extract coordinates and residue names for each backbone atom. """
+
     import collections
+
+    # The atoms list has the following structure:
+    #    atoms = [((x, y, z), residue), ...]
 
     atoms = []
     Atom = collections.namedtuple('Atom', 'xyz residue')
@@ -53,8 +65,13 @@ def atoms_from_pdb(pdb):
     return atoms
 
 def torsions_from_atoms(atoms):
+    """ Calculate and return phi and psi torsions for each residue. """
+
     import vector
     import collections
+
+    # The torsions list has the following structure:
+    #     torsions = [(phi, psi, residue), ...]
 
     torsions = []
     RamaInfo = collections.namedtuple('RamaInfo', 'phi psi residue')
@@ -81,9 +98,13 @@ def torsions_from_atoms(atoms):
     else:
         return torsions
 
-def filter_torsions(torsions, phis, psis, filter):
+def filter_torsions(torsions, phis, psis, filter=None):
+    """ Create lists of phis and psis from the given torsions. """
+
     for index, rama_info in enumerate(torsions):
         phi, psi, residue = rama_info
+
+        # Don't include this point if it doesn't pass the filter.
 
         if filter == 'normal':
             if residue == 'GLY': continue
@@ -102,15 +123,18 @@ def filter_torsions(torsions, phis, psis, filter):
         else:
             raise ValueError("Unknown filter '{}'.".format(filter))
 
+        # Append to phis and psis.  Keeping separate phi and psi lists is 
+        # convenient for plotting.
+
         phis.append(phi)
         psis.append(psi)
 
 def make_rama_plot(phi, psi, style=None, blur=None):
+    """ Plot the given phi and psi pairs. """
+
     import numpy as np
     import matplotlib.pyplot as plt
-
-    import warnings
-    warnings.simplefilter('ignore')
+    import warnings; warnings.simplefilter('ignore')
 
     if style is None or style == 'scatter':
         plt.plot(phi, psi, '.')
@@ -167,12 +191,16 @@ def make_rama_plot(phi, psi, style=None, blur=None):
 if __name__ == '__main__':
     import docopt
 
+    # Parse command line arguments.
+
     arguments = docopt.docopt(__doc__.strip())
     pdbs = arguments['<pdb_file_or_tag>']
     filter = arguments['--filter']
     style = arguments['--plot']
     blur = float(arguments['--blur'])
     quiet = arguments['--quiet']
+
+    # Generate the Ramachandran plot.
 
     phis, psis = [], []
 
