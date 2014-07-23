@@ -29,7 +29,7 @@ with open(input) as file:
                 coordinate = x, y, z
                 coordinates.append(coordinate)
 
-# Calculate phi, psi, and omega torsion angles.
+# Calculate all the phi and psi torsions.
 
 num_phi = len(coordinates) // 3 - 2
 num_psi = len(coordinates) // 3 - 2
@@ -42,6 +42,9 @@ for i in range(num_phi):
 
     angle = vector.torsion(v1, v2, v3, v4)
     phi.append(angle)
+
+    print v1, v2, v3, v4
+    print angle
 
 for i in range(num_psi):
     v1 = coordinates[3 * i + 3]
