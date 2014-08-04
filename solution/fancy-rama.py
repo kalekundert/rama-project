@@ -50,10 +50,11 @@ def atoms_from_pdb(pdb):
         field_type = line[0:6].strip()
 
         if field_type == 'ATOM':
-            atom_name = line[12:16].strip()
+            atom_name = line[12:16].upper().strip()
             residue_name = line[17:20].upper().strip()
+            chain_id = line[21:22].upper().strip()
 
-            if atom_name in backbone:
+            if atom_name in backbone and chain_id == 'A':
                 x = float(line[30:38])
                 y = float(line[38:46])
                 z = float(line[46:54])
@@ -106,9 +107,8 @@ def filter_torsions(torsions, phis, psis, filter=None):
 
         # Don't include this point if it doesn't pass the filter.
 
-        if filter == 'normal':
-            if residue == 'GLY': continue
-            if residue == 'PRO': continue
+        if filter is None:
+            pass
 
         elif filter == 'gly':
             if residue != 'GLY': continue
@@ -119,6 +119,10 @@ def filter_torsions(torsions, phis, psis, filter=None):
         elif filter == 'pre-pro':
             if index == len(torsions) - 1: continue
             if torsions[index + 1].residue != 'PRO': continue
+
+        elif filter == 'normal':
+            if residue == 'GLY': continue
+            if residue == 'PRO': continue
 
         else:
             raise ValueError("Unknown filter '{}'.".format(filter))
@@ -135,6 +139,8 @@ def make_rama_plot(phi, psi, style=None, blur=None):
     import numpy as np
     import matplotlib.pyplot as plt
     import warnings; warnings.simplefilter('ignore')
+
+    print "Plotting {} phi/psi points.".format(len(phi))
 
     if style is None or style == 'scatter':
         plt.plot(phi, psi, '.')
@@ -160,7 +166,7 @@ def make_rama_plot(phi, psi, style=None, blur=None):
         if blur is not None:
             import scipy.ndimage
             heatmap = scipy.ndimage.gaussian_filter(
-                    heatmap, sigma=blur, order=0)
+                    heatmap, sigma=float(blur), order=0)
 
         # Calculate the center of each bin.
 
@@ -197,7 +203,7 @@ if __name__ == '__main__':
     pdbs = arguments['<pdb_file_or_tag>']
     filter = arguments['--filter']
     style = arguments['--plot']
-    blur = float(arguments['--blur'])
+    blur = arguments['--blur']
     quiet = arguments['--quiet']
 
     # Generate the Ramachandran plot.
