@@ -1,4 +1,4 @@
-SOURCES=Makefile rama-project.tex example-function.py
+SOURCES=Makefile rama-project.tex example-function.py three-residues.pdf
 TEXNAME=rama-project
 
 all: latex
