@@ -167,18 +167,18 @@ for each residue.  The \bbphi{} angles are plotted along the x-axis and the
 \psi_i$ pair for one residue.  The \bbomega{} angles are left out because they 
 never deviate much from 180\degree.  
 
-Figure~\ref{fig:example-plot} shows the Ramachandran plot for PDB ID: 1AXC, 
-which is one of the structures we uploaded for you to use.  Note that there are 
-two distinct clusters of points.  These represent two specific backbone 
-conformations that are common in folded proteins: \ahelices{} (lower cluster) 
-and \bsheets{} (upper cluster).  The ability to easily identify which residues 
-are contributing to well-known, stable structural motifs is what makes 
+Figure~\ref{fig:example-plot} shows the Ramachandran plot for chain A of PDB 
+ID: 1AXC, which is one of the structures we uploaded for you to use.  Note that 
+there are two distinct clusters of points.  These represent two specific 
+backbone conformations that are common in folded proteins: \ahelices{} (lower 
+cluster) and \bsheets{} (upper cluster).  The ability to easily identify which 
+residues are contributing to well-known, stable structural motifs is what makes 
 Ramachandran plots useful for structural validation and prediction. 
 
 \begin{figure}[h]
  \centering
  \includegraphics[width=0.45\textwidth]{example-plot}
- \caption{Ramachardran plot for PDB ID: 1AXC}
+ \caption{Ramachardran plot for chain A of PDB ID: 1AXC}
  \label{fig:example-plot}
 \end{figure}
 
@@ -262,14 +262,14 @@ is also available online if you're interested.
 \toprule
 \multicolumn{3}{l}{Columns} & Example         & Description                         \\
 \midrule
- 1 &  6 & & \texttt{ATOM}   & Fixed string identifying each line. \\
- 7 & 11 & & \texttt{7507}   & Atom serial number.                 \\
-13 & 16 & & \texttt{CA}     & Atom name.                          \\
-18 & 20 & & \texttt{ILE}    & Residue name.                       \\
-23 & 26 & & \texttt{255}    & Residue sequence number.            \\
-31 & 38 & & \texttt{35.578} & X coordinate of atom.               \\
-39 & 46 & & \texttt{9.357}  & Y coordinate of atom.               \\
-47 & 54 & & \texttt{5.792}  & Z coordinate of atom.               \\
+ 1 &  6 & & \texttt{ATOM}   & Record type                         \\
+ 7 & 11 & & \texttt{7507}   & Atom serial number                  \\
+13 & 16 & & \texttt{CA}     & Atom name                           \\
+18 & 20 & & \texttt{ILE}    & Residue name                        \\
+23 & 26 & & \texttt{255}    & Residue sequence number             \\
+31 & 38 & & \texttt{35.578} & X coordinate of atom                \\
+39 & 46 & & \texttt{9.357}  & Y coordinate of atom                \\
+47 & 54 & & \texttt{5.792}  & Z coordinate of atom                \\
 \bottomrule
 \end{tabular}
 \caption{Description of the fields in an \texttt{ATOM} record.}
@@ -284,7 +284,7 @@ your first steps, but they may still be challenging.  If you get stuck, think
 about ways to break down the problem even further.
 
 \begin{problems}
- \item Print out all the lines in a PDB specified on the command line.
+ \item Print out all the lines in the PDB specified on the command line.
 
  \item The same as above, but only print lines corresponding to backbone atoms 
   (i.e. lines where the atom name is either \texttt{N}, \texttt{CA}, or 
@@ -304,7 +304,6 @@ about ways to break down the problem even further.
   are needed for which torsion.  Write two loops: one that prints out the four 
   coordinates required for each \bbphi{} torsion and one that does the same for 
   each \bbpsi{} torsion.
-
 \end{problems}
 
 \subsection{Part 3: Calculating Torsion Angles}
