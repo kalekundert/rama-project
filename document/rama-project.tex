@@ -56,12 +56,7 @@
 \begin{document}
 
 \title{Making Ramachandran Plots}
-\author{
- Kale Kundert -- \href{mailto:kale.kundert@ucsf.edu}{kale.kundert@ucsf.edu} \\
- Erin Poss -- \href{mailto:erin.poss@ucsf.edu}{erin.poss@ucsf.edu} \\
- James Webber -- \href{mailto:james.webber@ucsf.edu}{james.webber@ucsf.edu} \\
- Clint Cario -- \href{mailto:clint.cario@ucsf.edu}{clint.cario@ucsf.edu} \\
-}
+\author{}
 \date{}
 \maketitle{}
 
@@ -398,7 +393,17 @@ this with the challenge below to fill in your plots.  Also, if you don't
 already know, you might find it interesting to ponder why glycines and 
 pre-prolines have distinctive plots.
 
-\subsection{2. Make a combined plot for 10,000 structures}
+\subsection{2. Use NumPy to speed up the vector arithmetic}
+
+\href{http://www.numpy.org/}{NumPy} is a fast and comprehensive Python module for performing vector and matrix
+calculations. Not only can using NumPy greatly simplify your code, but it also
+can drastically speed it up. Also, most scientific computing and visualization packages
+in Python are NumPy-compatible out of the box. Try using NumPy arrays instead of tuples
+to store your vectors, and then use NumPy functions for the vector math. There are
+plenty of introductory NumPy tutorials on the web. The resulting speed-ups will help
+with the next future direction.
+
+\subsection{3. Make a combined plot for 10,000 structures}
 
 Working with lots of data is an important skill for scientific programmers.  
 Toward that end, we uploaded a 
@@ -408,7 +413,7 @@ Download this data and modify your program to create a single Ramachandran plot
 for all of it.  Experiment with ways to quickly process so many files and to 
 clearly present so many data points.
 
-\subsection{3. Automatically download PDB files}
+\subsection{4. Automatically download PDB files}
 
 One of the nice things about Python is that it's not just for scientific 
 programming, so there are libraries for doing things like downloading files 
