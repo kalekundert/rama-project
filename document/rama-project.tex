@@ -289,29 +289,18 @@ thumb is that you should have a comment describing anything you needed to look
 up when writing the code in the first place, because when reading the code 
 months from now, those are probably the things that will confuse you the most.  
 Remember, we'll be going over this project on the first day of bootcamp.  
-You'll want to remember why you wrote your program the way you did.
+You'll get more out of that session if you can remember why you wrote your 
+program the way you did.
 
 \begin{problems}
  \item Print out all the lines in the PDB specified on the command line.
 
- \item The same as above, but only print lines corresponding to backbone atoms 
-  (i.e. lines where the atom name is either \texttt{N}, \texttt{CA}, or 
-  \texttt{C}).
-
- \item The same as above, but only print the coordinates of the backbone atoms.
-
- \item Store the coordinates for each backbone atom in a tuple of three floats, 
-  then store each of these tuples in a list.  Note that the coordinates have to 
-  be converted to floats, because they are read in as strings.  As an example, 
-  you should end up with a data structure that looks something like this: 
-
-  \texttt{[(36.886, 53.177, 21.887), (38.323, 52.817, 21.996), ...]}
+ \item Extract the $x$, $y$, and $z$ coordinates for each atom in the PDB file.
 
  \item To calculate each \bbphi{} and \bbpsi{} torsion, you need coordinates 
   for four atoms.  Table~\ref{tab:backbone-torsions} shows which coordinates 
-  are needed for which torsion.  Write two loops: one that prints out the four 
-  coordinates required for each \bbphi{} torsion and one that does the same for 
-  each \bbpsi{} torsion.
+  are needed for which torsion.  Make groups of all the coordinates you'll need 
+  to calculate each torsion angle.
 \end{problems}
 
 \subsection{Part 3: Calculating Torsion Angles}
