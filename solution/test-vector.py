@@ -3,20 +3,16 @@
 import vector
 import math
 
-v1 = [36.886, 53.177, 21.887]
-v2 = [38.323, 52.817, 21.996]
-v3 = [38.493, 51.553, 22.830]
-v4 = [39.483, 50.748, 22.463]
-
+v1 = 1,2,3
+v2 = 3,4,5
 n1 = vector.normalize(v1)
-n2 = vector.normalize(v2)
 
-v1 = n1 = 1,2,3
-v2 = n2 = 3,4,5
+assert vector.add(v1, v2) == (4, 6, 8)
+assert vector.subtract(v1, v2) == (-2, -2, -2)
+assert abs(n1[0] - 0.27) < 0.01 and \
+       abs(n1[1] - 0.53) < 0.01 and \
+       abs(n1[2] - 0.80) < 0.01
+assert vector.dot(v1, v2) == 26
+assert vector.cross(v1, v2) == (-2, 4, -2)
 
-print vector.add(v1, v2)
-print vector.subtract(v1, v2)
-print vector.normalize(v1)
-print vector.dot(n1, n2)
-print vector.cross(n1, n2)
-print vector.torsion(v1, v2, v3, v4)
+print "All tests passed!"
