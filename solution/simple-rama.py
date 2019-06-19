@@ -6,7 +6,7 @@ import sys
 import vector
 import pylab
 
-input = sys.argv[1]
+pdb_path = sys.argv[1]
 backbone = 'N', 'CA', 'C'
 coordinates = []
 phis = []
@@ -14,8 +14,8 @@ psis = []
 
 # Read in coordinate data from the PDB file.
 
-with open(input) as file:
-    for line in file:
+with open(pdb_path) as pdb:
+    for line in pdb:
         field_type = line[0:6].strip()
 
         if field_type == 'ATOM':
