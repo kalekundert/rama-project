@@ -16,6 +16,7 @@
 \usepackage{float}
 \usepackage[super]{nth}
 \usepackage{minted}
+\usepackage{etoolbox}
 
 \titleformat*{\section}{\Large\bfseries}
 \titleformat*{\subsection}{\bfseries}
@@ -32,7 +33,9 @@
 \newfloat{listing}{thp}{lop}
 \floatname{listing}{Listing}
 
+% Use the Borland theme for code samples, but don't italicize comments.
 \usemintedstyle{borland}
+\AtBeginEnvironment{minted}{\let\itshape\relax}
 
 \setcounter{secnumdepth}{0}
 
